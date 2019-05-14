@@ -10,12 +10,14 @@
     const $deleteBtn = $('.deleteBtn')
     const findAllUsersUrl = 'http://localhost:8080/users'
     const deleteUserUrl = 'http://localhost:8080/users/USER_ID'
+    const userService = new UserService()
 
     $.ajax(findAllUsersUrl, {
         'success': handleUsers
     })
 
     function handleUsers(users) {
+        $("tbody").empty()
         for(i in users) {
             appendUserToDom(users[i])
         }
@@ -75,6 +77,10 @@
             firstName: firstName
         }
 
-        appendUserToDom(user)
+        userService
+            .createUser(user)
+            .then(handleUsers)
+
+        // appendUserToDom(user)
     }
 })()
