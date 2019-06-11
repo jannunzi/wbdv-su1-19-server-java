@@ -6,30 +6,26 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="courses")
-public class Course {
+@Table(name="modules")
+public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
-    @OneToMany(mappedBy = "course")
-    private List<Module> modules;
 
     @ManyToOne
     @JsonIgnore
-    private Faculty author;
+    private Course course;
 
-    @Transient
-    public String getAuthorName() {
-        return author != null ? author.getFirstName() + " " + author.getLastName() : "";
+    @OneToMany(mappedBy = "module")
+    private List<Lesson> lessons;
+
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public Faculty getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Faculty author) {
-        this.author = author;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
     public Integer getId() {
@@ -48,11 +44,12 @@ public class Course {
         this.title = title;
     }
 
-    public List<Module> getModules() {
-        return modules;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setModules(List<Module> modules) {
-        this.modules = modules;
+    public void setCourse(Course course) {
+        this.course = course;
     }
+
 }
